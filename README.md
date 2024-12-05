@@ -1,6 +1,5 @@
-
 **🚗 Smart Parking System using ESP32
-A real-time Smart Parking System built with an ESP32 microcontroller and ultrasonic sensors to detect parking spot occupancy. The project features a dynamic web interface powered by WebSockets for live status updates.
+**A real-time Smart Parking System built with an ESP32 microcontroller and ultrasonic sensors to detect parking spot occupancy. The project features a dynamic web interface powered by WebSockets for live status updates.
 
 📖 Table of Contents
 Features
