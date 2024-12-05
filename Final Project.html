@@ -55,7 +55,7 @@
   </div>
 
   <script>
-    const ws = new WebSocket('ws://192.168.1.112:81'); // Replace <ESP32_IP> with ESP32's IP address
+    const ws = new WebSocket('wss://192.168.1.112:81'); // Replace <ESP32_IP> with ESP32's IP address
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
