@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Parking - Spot 1</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://via.placeholder.com/800x600/ccc/fff?text=Parking+Lot') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 100%;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #333;
+      animation: slideDown 0.8s ease-in-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .parking {
+      position: relative;
+      margin-top: 20px;
+      height: 200px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .car {
+      position: absolute;
+      bottom: 0;
+      left: -150px;
+      width: 100px;
+      transition: left 1s ease-in-out, transform 0.5s ease;
+    }
+
+    .car.visible {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .spot {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 10px;
+      color: white;
+    }
+
+    .vacant {
+      background: #28a745;
+      animation: pulseGreen 1.5s infinite;
+    }
+
+    .occupied {
+      background: #dc3545;
+      animation: pulseRed 1.5s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0%, 100% {
+        background-color: #28a745;
+        transform: scale(1);
+      }
+      50% {
+        background-color: #3ed657;
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes pulseRed {
+      0%, 100% {
+        background-color: #dc3545;
+        transform: scale(1);
+      }
+      50% {
+        background-color: #ff5e5e;
+        transform: scale(1.05);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Parking Spot Status</h1>
+    <div class="parking">
+      <img id="car-image" class="car" src="https://via.placeholder.com/100x50/0000FF/FFFFFF?text=Car" alt="Car">
+    </div>
+    <div id="spot-status" class="spot vacant">Spot 1: Vacant</div>
+  </div>
+
+  <script>
+    const ws = new WebSocket('ws://192.168.1.112:81'); // Replace <ESP32_IP> with ESP32's IP address
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const statusDiv = document.getElementById('spot-status');
+      const carImage = document.getElementById('car-image');
+
+      // Update spot status and animate car
+      if (data.status === 'Occupied') {
+        statusDiv.textContent = `Spot 1: ${data.status}`;
+        statusDiv.className = 'spot occupied';
+        carImage.classList.add('visible'); // Move car into spot
+      } else {
+        statusDiv.textContent = `Spot 1: ${data.status}`;
+        statusDiv.className = 'spot vacant';
+        carImage.classList.remove('visible'); // Move car out of spot
+      }
+    };
+  </script>
+</body>
+</html>
