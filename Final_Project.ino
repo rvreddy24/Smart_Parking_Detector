@@ -7,7 +7,7 @@ const char* password = "Hotpoint@1252";
 
 #define NUM_SPOTS 1
 #define DISTANCE_THRESHOLD 10
-#define OCCUPANCY_TIME_THRESHOLD 5000
+#define OCCUPANCY_TIME_THRESHOLD 10000
 
 const int TRIG_PINS[NUM_SPOTS] = {13};
 const int ECHO_PINS[NUM_SPOTS] = {25};
